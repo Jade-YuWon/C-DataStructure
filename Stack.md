@@ -105,3 +105,18 @@ int main() {
 > num = -2 <br>
 > !num = 0 <br>
 
+4. variable "index" error (GCC found)
+```
+main.c:10:5: error: 'index' redeclared as different kind of symbol
+ int index = -1;
+     ^~~~~
+In file included from /usr/include/string.h:432,
+                 from main.c:3:
+/usr/include/strings.h:68:14: note: previous declaration of 'index' was here
+ extern char *index (const char *__s, int __c)
+              ^~~~~
+```
+  - <string.h> has "index()" function
+  - Solution: change the variable name "index" to "ind"
+5. __No Error, but still wrong answer__
+  - Solve Later...
