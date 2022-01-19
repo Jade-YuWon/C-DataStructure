@@ -13,33 +13,26 @@
   - **Dynamic Allocation & Linked List**
 --------------------------------------------------------------------------
 ### 2️⃣ Excercise Weeks
-#### 2022.01.09 ~ 16 (8 days) ~~*actually 2 days*~~
+#### 2022.01.09 ~ 16 (8 days) ~~*(actually 2 days)*~~
 #### Online Judge
 - CodeUp <https://codeup.kr/index.php>
   - **[문제집:C언어 기초 100제](https://codeup.kr/problemsetsol.php?psid=23)**
    
-### ______ Solved Problems
-#### _________ 문제집:C언어 기초 100제
+### Solved Problems
 #### 2022.01.09 (SUN)
 - Solved 61 / Try 126
   - 1001  1002  1003  1004  1005  1006  1007  1008  1014  1015  1017  1023  1024  1025  1027  1028  1037  1038  1040  1041  1042  1043  1044  1045  1046  1047  1048  1049  1050  1051  1052  1053  1054  1055  1056  1057  1058  1059  1060  1061  1062  1063  1064  1065  1066  1067  1071  1076  1078  1079  1081  1084  1089  1090  1091  1092  1093  1094  1095  1096  1097 
 - Level 6, Ranking 56423
-
-2022.01.10 (MON) \[Java\]<br>
-- Solved 01 / Try 02
-  - p 1001
-
 #### 2022.01.16 (SUN)
 - Solved 04 / Try 17
   - p 1098  1099  1805  4012 
   - Level 6, Ranking 53311
-#### 2022.00.00 ()
-- Solved 00 / Try 00
-  - p
 --------------------------------------------------------------------------------
 ### 3️⃣ Deeper Exploration Weeks
 #### 2022.01.16 ~ 
 #### References & Textbooks
+- **\[Gachon University's Data Structure Lecture book]**
+  - Ellis Horowitz, \<Fundamentals of Data Structures in C>, 2008
 - **\[Highly Recommended]** C언어 공부법과 책추천 (C표준) https://sunyzero.tistory.com/225
   - \[Legandary] K.N.King _C How to Programming_
   - \[Legandary] K&R TCPL _The C Programming Language_
@@ -95,4 +88,4 @@
       - 'Equality' means 'in the set of function'.
 #### 2022.01.19 (WED)
 - Searching and find textbook file of our university's lecture
-- Ellis Horowitz, <Fundamentals of Data Structures in C>, 2008
+- Ellis Horowitz, \<Fundamentals of Data Structures in C>, 2008
