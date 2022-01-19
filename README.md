@@ -49,7 +49,9 @@
       - http://csapp.cs.cmu.edu/3e/home.html
 - 컴퓨터과학 스스로 학습하기 https://github.com/minnsane/TeachYourselfCS-KR/blob/main/README.md
   - \[Algorithms]
-    - YouTube Free Lecutre: CSE373 - Analysis of Algorithms 2016 SBU https://youtube.com/playlist?list=PLOtl7M3yp-DX32N0fVIyvn7ipWKNGmwpp
+    - YouTube Free Lecutre: CSE373 
+      - [CSE373 --- Analysis of Algorithms (Fall 2021)](https://www.youtube.com/playlist?list=PLOtl7M3yp-DXbHTFe_w9zFPXeau28CDao)
+      - (Old ver.) [Analysis of Algorithms 2016 SBU](https://youtube.com/playlist?list=PLOtl7M3yp-DX32N0fVIyvn7ipWKNGmwpp)
     - Coursera Lecutre: https://www.coursera.org/specializations/algorithms
 ### Following Courses & Textbooks
 #### 2022.01.16 (SUN)
@@ -65,7 +67,7 @@
   - 2. Asymptotic Notation
     - What kinds(cases) of algorithms' complexity are exist? How describe them in simple bounding functions?
     - How to define and find the Big Oh, Big Omega, Big Theta's values?
- #### 2022.01.17 (MON)
+#### 2022.01.17 (MON)
 - Algorithms Youtube Lecutre(CSE373)
   - Lecture 1 (Deeply)
     - Algorithms are expressed procedures or solutions of solving and imperatively getting answer of problems in a conventional way, such as English, **Pseoudo Code**, Programming Languages.
@@ -73,8 +75,24 @@
       - RAM takes 1 step for each simple operations(+ - = if call).
       - RAM can't operate Loop or subroutine call in 1 step.
       - RAM takes 1 step for accessing to each memory.
+        - The thing is, RAM Model is not a Reality. (**Igonore cash, instruction time, etc.)
     - Algorithms are up to **Correctness and Efficiency**.
       - Correctness(정확성): The algorithm ALWAYS can get to the answer.
       - Proof(증명): Idea about why the algorithm(program) is correct or not.
       - Efficiency(효율성): The algorithm still give us the answer even in the LARGE INPUT. (Faster and more efficient algorithms in a slow machine is much better than Slower algorithms in a super computer.) It's measured by Big-Oh notation or worst case analysis.
- 
+#### 2022.01.18 (TUE)
+- Algorithms Youtube Lecutre(CSE373)
+  - Lecture 2, 3 (Deeply)
+  - Algorithms' Complexity Analysis
+    - Worst Case: usually regarded as reasonable analysis
+    - Average Case: considered in Randomized algorithms(?)
+    - Best Case: not considered
+  - Asymptotic functions
+    - Big Oh(O): Upper bound function
+    - Big Omega(Ω): Lower bound function
+    - Bit theta(θ): Big Oh AND Big Omega at the same time
+      - "Asymptotic"(점근적) functions simplify the analysis. (Exact analysis is hard) 
+      - 'Equality' means 'in the set of function'.
+#### 2022.01.19 (WED)
+- Searching and find textbook file of our university's lecture
+- Ellis Horowitz, <Fundamentals of Data Structures in C>, 2008
