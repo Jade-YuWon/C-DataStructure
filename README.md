@@ -89,3 +89,9 @@
 #### 2022.01.19 (WED)
 - Searching and find textbook file of our university's lecture
 - Ellis Horowitz, \<Fundamentals of Data Structures in C>, 2008
+
+#### 2022.01.20 (THU) \~
+
+#### 2022.02.05 (SAT) \~
+- \<A First Book of ANSI C>
+  - Review of Dynamic Allocation and Dynamic Data Structure
