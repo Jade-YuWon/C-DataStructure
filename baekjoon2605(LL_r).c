@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Referenced(Clone coding) version - In progress 
+/* Referenced version completed
 * Resource of reference :
 * https://www.acmicpc.net/source/39137587
 */
@@ -19,24 +19,19 @@ typedef struct _list {
 } List;
 
 void list_init(List *plist);
-void list_insert(List *plist, int number, int pick);
-int list_get_first_data(List *plist, int *pdata);
-int list_get_next_data(List *plist, int *pdata);
-int list_get_data(List *plist);
+void list_insert(List *plist, int number, int move);
 
-int main()
-{
+int main() {
     int num;
     int arr[100];
+    List *list = (List*)malloc(sizeof(List));
+    list_init(list);
     
     scanf("%d", &num);
     
     for (int i=0; i<num; i++) {
         scanf("%d", &arr[i]);
     }
-    
-    List *list = (List*)malloc(sizeof(List));
-    list_init(list);
     
     for (int i=0; i<num; i++) {
         Node *new = (Node*)malloc(sizeof(Node));
@@ -49,7 +44,6 @@ int main()
         list->cur = list->cur->next;
     }
     
-
     return 0;
 }
 
@@ -59,31 +53,36 @@ void list_init(List *plist) {
     plist->cur = NULL;
 }
 
-void list_insert(List *plist, int number, int pick) {
+void list_insert(List *plist, int number, int move) {
     Node *tmp;
     Node *new = (Node*)malloc(sizeof(Node));
     new->number = number;
     new->prev = NULL;
     
-    if (plist->head == NULL && pick == 0) {
+    if (plist->head == NULL && move == 0) {
+        plist->head = new;
+        plist->tail = new;
+    }
+    else if (plist->head != NULL && move == 0) {
+        plist->tail->next = new;
+        new->prev = plist->tail;
+        plist->tail = new;
+    }
+    else if (plist->head != NULL && move > 0) {
+        plist->cur = plist->tail;
+        for (int i=0; i<move; i++) {
+            plist->cur = plist->cur->prev;
+        }
         
+        if (plist->cur == NULL) {
+            plist->head->prev = new;
+            new->next = plist->head;
+            plist->head = new;
+        } else {
+            new->next = plist->cur->next;
+            plist->cur->next->prev = new;
+            plist->cur->next = new;
+            new->prev = plist->cur;
+        }
     }
-    else if (plist->head != NULL && pick == 0) {
-    
-    }
-    else if (plist->head != NULL && pick > 0) {
-    
-    }
-}
-
-int list_get_first_data(List *plist, int *pdata) {
-    
-}
-
-int list_get_next_data(List *plist, int *pdata) {
-    
-}
-
-int list_get_data(List *plist) {
-    
 }
