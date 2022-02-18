@@ -2,6 +2,9 @@
 #include <stdlib.h>
 
 /* Referenced version completed
+*
+* Doubly Linked List
+*
 * Resource of reference :
 * https://www.acmicpc.net/source/39137587
 */
