@@ -4,7 +4,7 @@
 #define MAX_QUEUE_SIZE 10
 
 
-// 현재 이렇게 하면 에러는 안나지만 기능이 제대로 동작하지 않는다.
+// 이제 기능이 잘 동작하기 시작했다. 나머지 기능들도 마저 구현해야 한다.
 
 typedef struct _Stack {
     int value[MAX_STACK_SIZE];
@@ -25,22 +25,26 @@ Queue queue;
 int stack_arr[MAX_STACK_SIZE];
 int queue_arr[MAX_QUEUE_SIZE];
 
-// 잘 보면, 함수 내의 지역변수(멤버) 값만 바꾸고 있다. 전역변수값이 바뀌는게 아니다. 
-void init_stack(Stack s) {
-    s.p = -1;
+// 사실 전역변수 자료구조를 사용하면 함수의 매개변수는 필요없다.
+void init_stack() {
+    stack.p = -1;
 }
-void init_queue(Queue q) {
-    q.front = -1;
-    q.rear = -1;
+void init_queue() {
+    queue.front = -1;
+    queue.rear = -1;
 }
 
-bool push(Stack s, int value) {
-    if (s.p > MAX_STACK_SIZE) { // is_stack_full
+// 여기도 마찬가지로 전역변수 자료구조를 사용하므로 매개변수가 필요없다.
+bool push(int value) {
+    if (stack.p > MAX_STACK_SIZE) { // is_stack_full
         return false;
     }
 
-    s.p++;
-    s.value[s.p] = value;
+    stack.p++;
+    stack.value[stack.p] = value;
+
+    // stack 값도 이제 잘 바뀐다.
+    printf("%d ", stack.value[stack.p]);
     return true;
 }
 bool pop() {
@@ -56,15 +60,15 @@ bool pop_arr() {
 
 int main()
 {
-    init_stack(stack);
-    init_queue(queue);
+    init_stack();
+    init_queue();
 
-    // 값이 제대로 바뀌어 출력되지 않는다. (쓰레기값이 아닌 0이 나오는 이유는 전역변수는 기본값으로 초기화되기때문)
+    // 이제 전역변수의 값이 성공적으로 바뀌었다.
     printf("%d ", stack.p);
     printf("%d ", queue.front);
     printf("%d ", queue.rear);
 
-    if (!push(stack, 100)) {
+    if (!push(100)) {
         printf("Fail to push %d\n", 100);
     }
 
