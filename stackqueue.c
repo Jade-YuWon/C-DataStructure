@@ -4,7 +4,7 @@
 #define MAX_QUEUE_SIZE 10
 
 
-// 이제 기능이 잘 동작하기 시작했다. 나머지 기능들도 마저 구현해야 한다.
+// pop 한 값을 garbage로 남겨둬도 괜찮을까?
 
 typedef struct _Stack {
     int value[MAX_STACK_SIZE];
@@ -48,7 +48,14 @@ bool push(int value) {
     return true;
 }
 bool pop() {
-    return false;
+    if (stack.p < 0) { // is_stack_empty
+        return false;
+    }
+
+    printf("%d ", stack.value[stack.p]);
+    stack.p--;
+    
+    return true;
 }
 
 bool push_arr() {
