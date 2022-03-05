@@ -126,11 +126,14 @@ int main()
 {
     init_stack();
     init_queue();
-
     // 이제 전역변수의 값이 성공적으로 바뀌었다.
     printf("%d ", stack.p);
     printf("%d ", queue.front);
-    printf("%d \n", queue.rear);
+    printf("%d \n", queue.rear); 
+    
+    printf("%d ", p);
+    printf("%d ", front);
+    printf("%d \n", rear);
 
     // push 인덱스를 MAX와 같을 때까지 넣는다. 마지막에 같아질 때는 push에 실패한다.
     // (따라서 인덱스 0 시작을 기준으로 할 때는 i<MAX (같아지기 직전) 까지만 넣어야 한다.)
