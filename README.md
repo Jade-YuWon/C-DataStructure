@@ -95,3 +95,19 @@
 #### 2022.02.05 (SAT) \~
 - \<A First Book of ANSI C>
   - Review of Dynamic Allocation and Dynamic Data Structure
+
+--------------------------------------------------------------------------------
+### 4️⃣ Semester Weeks
+#### 2022.03.02 (WED) \~ 03.07 (MON)
+- Reviewing Stack, Queue
+  - Implimenting Non-circular Buffer Stack (LIFO) in array
+  - Implimenting Non-circular Buffer Queue (FIFO) in array
+#### 2022.03.11 (FRI) \~
+- Circular Stack, Queue
+  - Implimenting **Circular Ring Buffer** Stack (LIFO) in array ❓
+  - Implimenting **Circular Ring Buffer** Queue (FIFO) in array
+    - Method 1) Empty:front=rear=0, Full:front-(rear%MAX_QUEUE_SIZE)==1
+    - Method 2) Empty:front=rear=-1, ❓
+- Reviewing Linked Lists and stack, queue
+  - Implimenting Circular Buffer Stack (LIFO) in linked list ❌
+  - Implimenting Circular Buffer Queue (FIFO) in linked list
