@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 typedef struct Node {
 	int data;
 	struct Node* Lptr;	// left child
@@ -10,10 +11,6 @@ typedef struct Tree {
 	struct Node* root;
 } TREE;
 
-//// root init
-//tree->root->data = 1;
-//tree->root->Lptr = NULL;
-//tree->root->Rptr = NULL;
 NODE* addNewNode(const int val) {
 	NODE* newNode = (NODE*)malloc(sizeof(NODE));
 	if (!newNode) {
@@ -27,46 +24,12 @@ NODE* addNewNode(const int val) {
 	return newNode;
 }
 
-// Traverse functions
-/*
-void preorder(tree_ptr ptr)
-{
-	if (ptr) {
-		(visit node);
-		preorder(ptr->left_child);
-		preorder(ptr->right_child);
-	}
-}
-void inorder(tree_ptr ptr)
-{
-	if (ptr) {
-		preorder(ptr->left_child);
-		(visit node);
-		preorder(ptr->right_child);
-	}
-}
-void postorder(tree_ptr ptr)
-{
-	if (ptr) {
-		preorder(ptr->left_child);
-		preorder(ptr->right_child);
-		(visit node);
-	}
-}
-*/
-
+// Traverse functions - preorder, inorder, postorder
 void preorder(NODE* ptr) {
 	if (ptr) {
 		printf("%d ", ptr->data);
 		preorder(ptr->Lptr);
 		preorder(ptr->Rptr);
-	}
-}
-void postorder(NODE* ptr) {
-	if (ptr) {
-		postorder(ptr->Lptr);
-		postorder(ptr->Rptr);
-		printf("%d ", ptr->data);
 	}
 }
 void inorder(NODE* ptr) {
@@ -76,15 +39,19 @@ void inorder(NODE* ptr) {
 		inorder(ptr->Rptr);
 	}
 }
-
+void postorder(NODE* ptr) {
+	if (ptr) {
+		postorder(ptr->Lptr);
+		postorder(ptr->Rptr);
+		printf("%d ", ptr->data);
+	}
+}
 
 int main() {
 	TREE* tree = NULL;
-	//NODE* rootNode = NULL;
 
-	// tree and root malloc
+	// tree malloc
 	tree = (TREE*)malloc(sizeof(TREE));
-	//rootNode = (NODE*)malloc(sizeof(NODE));
 	
 	// defensive coding
 	if (!tree) {
@@ -92,13 +59,9 @@ int main() {
 		exit(1);
 	}
 
-	// tree init
-	//tree->root = rootNode;
+	// tree initialization (assign root node)
 	tree->root = addNewNode(1);
-		//// root init
-		//tree->root->data = 1;
-		//tree->root->Lptr = NULL;
-		//tree->root->Rptr = NULL;
+	// Fill every nodes of tree with values
 	tree->root->Lptr = addNewNode(2);
 	tree->root->Rptr = addNewNode(3);
 	tree->root->Lptr->Lptr = addNewNode(4);
@@ -107,6 +70,7 @@ int main() {
 	tree->root->Rptr->Rptr = addNewNode(7);
 	tree->root->Rptr->Rptr->Lptr = addNewNode(8);
 
+	// Traverse tree
 	printf("\n\nPreorder traversal: ");
 	preorder(tree->root);
 	printf("\n\nInorder traversal: ");
