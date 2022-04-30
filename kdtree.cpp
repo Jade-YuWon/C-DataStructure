@@ -127,6 +127,17 @@ void inorder(struct kd_node_t* T, int dim) {
     }
 }
 
+bool point_search() {
+    return false;
+}
+
+void range_search() {
+
+}
+
+void nearest_neighbor_search() {
+
+}
 
 
 #define N 1000000
@@ -138,7 +149,8 @@ int main(void)
     struct kd_node_t wp[] = { // WP Tree
         {{2, 3}}, {{5, 4}}, {{3, 4}}, {{9, 6}}, {{4, 7}}, {{8, 1}}, {{7, 2}}
     };
-    struct kd_node_t testNode[] = { {5, 4}, {4, 7}, {4, 3} };
+    struct kd_node_t pointSearchNode[] = { {5, 4}, {4, 7}, {10, 5} };
+    struct kd_node_t testNode[] = { {5, 4}, {4, 7} };
     struct kd_node_t* root, * found, * million;
     double best_dist;
 
