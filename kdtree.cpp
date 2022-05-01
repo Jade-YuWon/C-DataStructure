@@ -17,7 +17,7 @@ struct kd_node_t* make_tree(struct kd_node_t* t, int len, int i, int dim);
 void nearest(struct kd_node_t* root, struct kd_node_t* nd, int i, int dim, struct kd_node_t** best, double* best_dist);
 void inorder(struct kd_node_t* T, int dim);
 /* 구현 필요 */
-bool point_search(struct kd_node_t* root, int dim, kd_node_t p);
+bool point_search(struct kd_node_t* root, int dim, kd_node_t* p);
 void range_search();
 void nearest_neighbor_search();
 
@@ -146,18 +146,39 @@ void inorder(struct kd_node_t* T, int dim) {
 
 /* 호출 방식 
     struct kd_node_t pointSearchNode[] = { {5, 4}, {4, 7}, {10, 5} };
-    struct kd_node_t p = pointSearchNode[i]; // for loop
+    struct kd_node_t* p = &pointSearchNode[i]; // i in for loop
     point_search(p);
 */
-bool point_search(struct kd_node_t* root, int dim, kd_node_t p) {
+bool point_search(struct kd_node_t* root, int dim, kd_node_t* p) {
     if (!root) {
         return false;
     }
+    int d = 0;
+    if (root->x[d] == p->x[d]) {
+        d = (++d) % dim;
+        if (root->x[d] == p->x[d]) {
+            // It should be recursively called "dim" time ...
+            // var visited [parameter]
+            // var(optional) nearest_point and distance
+            return true;
+        }
+        else {
+            // d--; or d = 0;
+            // It should be recursively called ...
+        }
+    }
+    else if (root->x[d] < p->x[d]) {
+        // go to R Subtree
+        // It should be recursively called ...
+    }
+    else {
+        // go to L Subtree
+        // It should be recursively called ...
+    }
 
+    // Conditions
     // Case #1. 같은 차원에서 값이 모두 고유할 때
-
     // Case #2. 같은 차원에서 중복되는 값이 있을 때 (i.e., 자식 노드와 값이 같은 경우가 있을 때)
-
 
 
     return false;
@@ -248,13 +269,13 @@ int main(void)
     printf("\n");
 
     // Point search
-    /*
+    
     len = sizeof(pointSearchNode) / sizeof(struct kd_node_t);
     for (int i = 0; i < len; i++) {
         visited = 0; // global variable init
         found = 0;
 
-        struct kd_node_t p = pointSearchNode[i];
+        struct kd_node_t* p = &pointSearchNode[i];
 
         point_search(root, 2, p);
         printf(">> WP tree\nsearching for (%g, %g)\n"
@@ -262,7 +283,7 @@ int main(void)
             testNode[i].x[0], testNode[i].x[1],
             found->x[0], found->x[1], sqrt(best_dist), visited);
     }
-    */
+    
     // Nearest neighbor search
     len = sizeof(testNode) / sizeof(struct kd_node_t);
     for (int i = 0; i < len; i++) {
