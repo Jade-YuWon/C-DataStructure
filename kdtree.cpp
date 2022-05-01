@@ -278,10 +278,12 @@ int main(void)
         struct kd_node_t* p = &pointSearchNode[i];
 
         point_search(root, 2, p);
+        /*
         printf(">> WP tree\nsearching for (%g, %g)\n"
             "found (%g, %g) dist %g\nseen %d nodes\n\n",
-            testNode[i].x[0], testNode[i].x[1],
+            p->x[0], p->x[1],
             found->x[0], found->x[1], sqrt(best_dist), visited);
+        */
     }
     
     // Nearest neighbor search
