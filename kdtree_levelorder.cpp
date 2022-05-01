@@ -1,5 +1,3 @@
-/* RUNTIME ERROR */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -170,6 +168,11 @@ void printLevelOrder(struct kd_node_t* root, int dim)
         if (temp_node->right)
             enQueue(queue, &rear, temp_node->right);
 
+        /* 이것만 추가해주면 ERROR 디버깅 완료 */
+        if (front == rear) {
+            break;
+        }
+        
         /*Dequeue node and make it temp_node*/
         temp_node = deQueue(queue, &front);
     }
