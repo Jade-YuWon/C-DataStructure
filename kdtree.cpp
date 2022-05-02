@@ -4,8 +4,8 @@
 #include <math.h>
 #include <time.h>
 
-#define MAX_ELE 7
-#define MAX_DIM 3
+#define MAX_ELE 10000
+#define MAX_DIM 2
 struct kd_node_t {
     double x[MAX_DIM];
     struct kd_node_t* left, * right;
@@ -17,11 +17,10 @@ struct kd_node_t* find_median(struct kd_node_t* start, struct kd_node_t* end, in
 struct kd_node_t* make_tree(struct kd_node_t* t, int len, int i, int dim);
 void nearest(struct kd_node_t* root, struct kd_node_t* nd, int i, int dim, struct kd_node_t** best, double* best_dist);
 void inorder(struct kd_node_t* T, int dim);
+/* 구현 완료 */
+bool point_search(struct kd_node_t* root, int d, int dim, struct kd_node_t* p);
+void range_search(struct kd_node_t* root, int d, int dim, const int len, struct kd_node_t* p);
 /* 구현 필요 */
-bool point_search(struct kd_node_t* root, int d, int dim, kd_node_t* p);
-void range_search(struct kd_node_t* root, int d, int dim, kd_node_t* p, bool* boolArr);
-
-void inorderMake(struct kd_node_t* T, int dim, int i, kd_node_t** newTree);
 void nearest_neighbor_search();
 
 /* 레벨오더(BFS, 너비우선탐색)를 위한 frunction prototypes */
@@ -153,7 +152,7 @@ void inorder(struct kd_node_t* T, int dim) {
     struct kd_node_t* p = &pointSearchNode[i]; // i in for loop
     point_search(p);
 */
-bool point_search(struct kd_node_t* root, int d, int dim, kd_node_t* p) {
+bool point_search(struct kd_node_t* root, int d, int dim, struct kd_node_t* p) {
     
     if (!root) {
         return false;
@@ -169,7 +168,6 @@ bool point_search(struct kd_node_t* root, int d, int dim, kd_node_t* p) {
             return true;
         }
         else {
-            // d--; or d = 0;
             // It should be recursively called ...
 
             // Case #1. 같은 차원에서 값이 모두 고유할 때
@@ -204,41 +202,51 @@ bool point_search(struct kd_node_t* root, int d, int dim, kd_node_t* p) {
     // Conditions
     // Case #1. 같은 차원에서 값이 모두 고유할 때
     // Case #2. 같은 차원에서 중복되는 값이 있을 때 (i.e., 자식 노드와 값이 같은 경우가 있을 때)
-
 }
 
 /* 호출 방법
-range_search(root, 0, 2, rangeSearchNode)
+    struct kd_node_t rangeSearchNode[] = { {6, 3}, {9, 7} };
+    len = sizeof(wp) / sizeof(struct kd_node_t);
+    range_search(root, 0, 2, len, rangeSearchNode);
 */
-
-void range_search(struct kd_node_t* root, int d, int dim, kd_node_t* p, bool* boolArr) {
+void range_search(struct kd_node_t* root, int d, int dim, const int len, struct kd_node_t* p) {
     // kd 트리의 배열 저장
-    kd_node_t* treeArr[MAX_ELE];
-    inorderMake(root, 2, 0, treeArr);
+    struct kd_node_t* treeArr[MAX_ELE];
+    //inorderMake(root, 2, 0, treeArr);
+    int rear, front;
+    struct kd_node_t** queue = createQueue(&front, &rear);
+    int j = 0;
+    while (root) {
 
-    // bool 배열 저장
-    for (int i = 0; i < MAX_ELE; i++) {
-        // p[0].x[0], p[0].x[1],         p[1].x[0], p[1].x[1]
-        if (p[0].x[0] < treeArr[i]->x[0] && p[0].x[1] < treeArr[i]->x[1]
-            && treeArr[i]->x[0] < p[1].x[0] && treeArr[i]->x[0] < p[1].x[1]) {
-            
-            boolArr[i] = true;
-            printf("Found (%lf, %lf):\n", treeArr[i]->x[0], treeArr[i]->x[1]);
+        treeArr[j++] = root;
+        if (j == len) break;
+        /*Enqueue left child */
+        if (root->left)
+            enQueue(queue, &rear, root->left);
+
+        /*Enqueue right child */
+        if (root->right)
+            enQueue(queue, &rear, root->right);
+
+        if (front == rear) {
+            break;
+        }
+        /*Dequeue node and make it temp_node*/
+        root = deQueue(queue, &front);
+
+    }
+
+    for (int i = 0; i < len; i++) 
+    {
+        if (p[0].x[0] <= treeArr[i]->x[0] && p[0].x[1] <= treeArr[i]->x[1]
+            && treeArr[i]->x[0] <= p[1].x[0] && treeArr[i]->x[1] <= p[1].x[1]) 
+        {
+            // boolArr[i] = true; // 이거 대신에 바로 출력
+            printf("Found (%lf, %lf)\n", treeArr[i]->x[0], treeArr[i]->x[1]);
         }
     }
     
 }
-
-
-void inorderMake(struct kd_node_t* T, int dim, int i, kd_node_t** newTree) {
-    
-    if (T != NULL) {
-        inorderMake(T->left, dim, ++i, newTree);
-        newTree[i] = T;
-        inorderMake(T->right, dim, ++i, newTree);
-    }
-}
-
 
 
 void nearest_neighbor_search() {
@@ -323,15 +331,14 @@ int main(void)
     printLevelOrder(root, 2);
     printf("\n");
 
-    // Point search
-    
+    // 1. Point search
     len = sizeof(pointSearchNode) / sizeof(struct kd_node_t);
     for (int i = 0; i < len; i++) {
         struct kd_node_t* p = &pointSearchNode[i];
         printf("Search (%lf, %lf):\n", p->x[0], p->x[1]);
 
         if (point_search(root, 0, 2, p)) {
-            //찾았다
+            // 찾았다
             printf("Found\n");
         }
         else {
@@ -339,21 +346,22 @@ int main(void)
             printf("None\n");
         }
     }
+    printf("\n");
 
-    // Range Search
-    visited = 0; // global variable init
-    found = 0;
-
-    printf("Bounding Rectangle (%lf, %lf) and (%lf, %lf):\n", rangeSearchNode[0].x[0], rangeSearchNode[0].x[1],
+    // 2. Range Search
+    len = sizeof(wp) / sizeof(struct kd_node_t);
+    printf("Bounding Rectangle\n"
+        "- Starting point: (%lf, %lf), End point: (%lf, %lf)\n", rangeSearchNode[0].x[0], rangeSearchNode[0].x[1],
         rangeSearchNode[1].x[0], rangeSearchNode[1].x[1]);
+    range_search(root, 0, 2, len, rangeSearchNode);
+    printf("\n");
 
-    range_search(root, 0, 2, rangeSearchNode, rangeResult);
-    
-    for (int i = 0; i < len; i++) {
+
     
     
     // Nearest neighbor search
     len = sizeof(testNode) / sizeof(struct kd_node_t);
+    for (int i = 0; i < len; i++) {
         visited = 0; // global variable init
         found = 0;
 
