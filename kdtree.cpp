@@ -150,12 +150,14 @@ void inorder(struct kd_node_t* T, int dim) {
     struct kd_node_t* p = &pointSearchNode[i]; // i in for loop
     point_search(p);
 */
-bool point_search(struct kd_node_t* root, int dim, kd_node_t* p) {
+bool point_search(struct kd_node_t* root, int d, int dim, kd_node_t* p) {
+    
     if (!root) {
         return false;
     }
-    int d = 0;
-    if (root->x[d] == p->x[d]) { // x값 비교
+    
+    // int d = 0;
+    if (root->x[d] == p->x[d]) { // x값 비교 / y value
         d = (++d) % dim;
         if (root->x[d] == p->x[d]) { // y값 비교
             // It should be recursively called "dim" time ...
@@ -166,23 +168,40 @@ bool point_search(struct kd_node_t* root, int dim, kd_node_t* p) {
         else {
             // d--; or d = 0;
             // It should be recursively called ...
+
+            // Case #1. 같은 차원에서 값이 모두 고유할 때
+            // return false;
+            if (root->x[d] < p->x[d]) {
+                // go to R Subtree
+                // It should be recursively called ...
+                d = (++d) % dim;
+                point_search(root->right, d, 2, p);
+            }
+            else {
+                // go to L Subtree
+                // It should be recursively called ...
+                d = (++d) % dim;
+                point_search(root->left, d, 2, p);
+            }
         }
     }
     else if (root->x[d] < p->x[d]) {
         // go to R Subtree
         // It should be recursively called ...
+        d = (++d) % dim;
+        point_search(root->right, d, 2, p);
     }
     else {
         // go to L Subtree
         // It should be recursively called ...
+        d = (++d) % dim;
+        point_search(root->left, d, 2, p);
     }
 
     // Conditions
     // Case #1. 같은 차원에서 값이 모두 고유할 때
     // Case #2. 같은 차원에서 중복되는 값이 있을 때 (i.e., 자식 노드와 값이 같은 경우가 있을 때)
 
-
-    return false;
 }
 
 void range_search() {
@@ -277,12 +296,15 @@ int main(void)
         found = 0;
 
         struct kd_node_t* p = &pointSearchNode[i];
+        printf("Search (%lf, %lf):\n", p->x[0], p->x[1]);
 
-        if (point_search(root, 2, p)) {
+        if (point_search(root, 0, 2, p)) {
             //찾았다
+            printf("Found\n");
         }
         else {
             // 트리 내에 없음
+            printf("None\n");
         }
         /*
         printf(">> WP tree\nsearching for (%g, %g)\n"
