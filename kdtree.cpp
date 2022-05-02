@@ -5,7 +5,7 @@
 #include <time.h>
 
 #define MAX_ELE 10000
-#define MAX_DIM 2
+#define MAX_DIM 3
 struct kd_node_t {
     double x[MAX_DIM];
     struct kd_node_t* left, * right;
@@ -117,7 +117,6 @@ void nearest(struct kd_node_t* root, struct kd_node_t* nd, int i, int dim, struc
     double d = dist(root, nd, dim);
 
     double dx = root->x[i] - nd->x[i];
-    // x
     double dx2 = dx * dx;   // dx squared
 
     visited++;
@@ -303,7 +302,6 @@ struct kd_node_t* deQueue(struct kd_node_t** queue, int* front)
 }
 
 
-
 #define N 1000000
 #define rand1() (rand() / (double)RAND_MAX)
 #define rand_pt(v) { v.x[0] = rand1(); v.x[1] = rand1(); v.x[2] = rand1(); }
@@ -315,11 +313,10 @@ int main(void)
         {{2, 3}}, {{5, 4}}, {{3, 4}}, {{9, 6}}, {{4, 7}}, {{8, 1}}, {{7, 2}}
     };
     struct kd_node_t pointSearchNode[] = { {5, 4}, {4, 7}, {10, 5} };
-    struct kd_node_t rangeSearchNode[] = { {6, 3}, {9, 7} };
+    struct kd_node_t rangeSearchNode[] = { {6, 3}, {9, 7} }; // Bounding Rectangle's starting and end points
     struct kd_node_t testNode[] = { {5, 4}, {4, 7} };
     struct kd_node_t* root, * found, * million;
     double best_dist = 10*sqrt(2); // 최대값으로 초기화
-    bool rangeResult[MAX_ELE] = { false, };
 
     // Build k-D Tree
     root = make_tree(wp, sizeof(wp) / sizeof(wp[1]), 0, 2);
@@ -356,9 +353,6 @@ int main(void)
     range_search(root, 0, 2, len, rangeSearchNode);
     printf("\n");
 
-
-    
-    
     // Nearest neighbor search
     len = sizeof(testNode) / sizeof(struct kd_node_t);
     for (int i = 0; i < len; i++) {
