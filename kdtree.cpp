@@ -115,6 +115,7 @@ void nearest(struct kd_node_t* root, struct kd_node_t* nd, int i, int dim, struc
     double d = dist(root, nd, dim);
 
     double dx = root->x[i] - nd->x[i];
+    // x
     double dx2 = dx * dx;   // dx squared
 
     visited++;
@@ -154,9 +155,9 @@ bool point_search(struct kd_node_t* root, int dim, kd_node_t* p) {
         return false;
     }
     int d = 0;
-    if (root->x[d] == p->x[d]) {
+    if (root->x[d] == p->x[d]) { // x값 비교
         d = (++d) % dim;
-        if (root->x[d] == p->x[d]) {
+        if (root->x[d] == p->x[d]) { // y값 비교
             // It should be recursively called "dim" time ...
             // var visited [parameter]
             // var(optional) nearest_point and distance
@@ -277,7 +278,12 @@ int main(void)
 
         struct kd_node_t* p = &pointSearchNode[i];
 
-        point_search(root, 2, p);
+        if (point_search(root, 2, p)) {
+            //찾았다
+        }
+        else {
+            // 트리 내에 없음
+        }
         /*
         printf(">> WP tree\nsearching for (%g, %g)\n"
             "found (%g, %g) dist %g\nseen %d nodes\n\n",
@@ -297,7 +303,7 @@ int main(void)
             "found (%g, %g) dist %g\nseen %d nodes\n\n",
             testNode[i].x[0], testNode[i].x[1],
             found->x[0], found->x[1], sqrt(best_dist), visited);
-    }
+    } 
     
     return 0;
 }
