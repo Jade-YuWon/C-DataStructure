@@ -4,6 +4,7 @@
 #include <math.h>
 #include <time.h>
 
+#define MAX_ELE 7
 #define MAX_DIM 3
 struct kd_node_t {
     double x[MAX_DIM];
@@ -17,8 +18,10 @@ struct kd_node_t* make_tree(struct kd_node_t* t, int len, int i, int dim);
 void nearest(struct kd_node_t* root, struct kd_node_t* nd, int i, int dim, struct kd_node_t** best, double* best_dist);
 void inorder(struct kd_node_t* T, int dim);
 /* 구현 필요 */
-bool point_search(struct kd_node_t* root, int dim, kd_node_t* p);
-void range_search();
+bool point_search(struct kd_node_t* root, int d, int dim, kd_node_t* p);
+void range_search(struct kd_node_t* root, int d, int dim, kd_node_t* p, bool* boolArr);
+
+void inorderMake(struct kd_node_t* T, int dim, int i, kd_node_t** newTree);
 void nearest_neighbor_search();
 
 /* 레벨오더(BFS, 너비우선탐색)를 위한 frunction prototypes */
@@ -204,9 +207,39 @@ bool point_search(struct kd_node_t* root, int d, int dim, kd_node_t* p) {
 
 }
 
-void range_search() {
+/* 호출 방법
+range_search(root, 0, 2, rangeSearchNode)
+*/
 
+void range_search(struct kd_node_t* root, int d, int dim, kd_node_t* p, bool* boolArr) {
+    // kd 트리의 배열 저장
+    kd_node_t* treeArr[MAX_ELE];
+    inorderMake(root, 2, 0, treeArr);
+
+    // bool 배열 저장
+    for (int i = 0; i < MAX_ELE; i++) {
+        // p[0].x[0], p[0].x[1],         p[1].x[0], p[1].x[1]
+        if (p[0].x[0] < treeArr[i]->x[0] && p[0].x[1] < treeArr[i]->x[1]
+            && treeArr[i]->x[0] < p[1].x[0] && treeArr[i]->x[0] < p[1].x[1]) {
+            
+            boolArr[i] = true;
+            printf("Found (%lf, %lf):\n", treeArr[i]->x[0], treeArr[i]->x[1]);
+        }
+    }
+    
 }
+
+
+void inorderMake(struct kd_node_t* T, int dim, int i, kd_node_t** newTree) {
+    
+    if (T != NULL) {
+        inorderMake(T->left, dim, ++i, newTree);
+        newTree[i] = T;
+        inorderMake(T->right, dim, ++i, newTree);
+    }
+}
+
+
 
 void nearest_neighbor_search() {
 
@@ -274,9 +307,11 @@ int main(void)
         {{2, 3}}, {{5, 4}}, {{3, 4}}, {{9, 6}}, {{4, 7}}, {{8, 1}}, {{7, 2}}
     };
     struct kd_node_t pointSearchNode[] = { {5, 4}, {4, 7}, {10, 5} };
+    struct kd_node_t rangeSearchNode[] = { {6, 3}, {9, 7} };
     struct kd_node_t testNode[] = { {5, 4}, {4, 7} };
     struct kd_node_t* root, * found, * million;
     double best_dist = 10*sqrt(2); // 최대값으로 초기화
+    bool rangeResult[MAX_ELE] = { false, };
 
     // Build k-D Tree
     root = make_tree(wp, sizeof(wp) / sizeof(wp[1]), 0, 2);
@@ -292,9 +327,6 @@ int main(void)
     
     len = sizeof(pointSearchNode) / sizeof(struct kd_node_t);
     for (int i = 0; i < len; i++) {
-        visited = 0; // global variable init
-        found = 0;
-
         struct kd_node_t* p = &pointSearchNode[i];
         printf("Search (%lf, %lf):\n", p->x[0], p->x[1]);
 
@@ -306,17 +338,22 @@ int main(void)
             // 트리 내에 없음
             printf("None\n");
         }
-        /*
-        printf(">> WP tree\nsearching for (%g, %g)\n"
-            "found (%g, %g) dist %g\nseen %d nodes\n\n",
-            p->x[0], p->x[1],
-            found->x[0], found->x[1], sqrt(best_dist), visited);
-        */
     }
+
+    // Range Search
+    visited = 0; // global variable init
+    found = 0;
+
+    printf("Bounding Rectangle (%lf, %lf) and (%lf, %lf):\n", rangeSearchNode[0].x[0], rangeSearchNode[0].x[1],
+        rangeSearchNode[1].x[0], rangeSearchNode[1].x[1]);
+
+    range_search(root, 0, 2, rangeSearchNode, rangeResult);
+    
+    for (int i = 0; i < len; i++) {
+    
     
     // Nearest neighbor search
     len = sizeof(testNode) / sizeof(struct kd_node_t);
-    for (int i = 0; i < len; i++) {
         visited = 0; // global variable init
         found = 0;
 
