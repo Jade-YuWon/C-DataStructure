@@ -28,7 +28,7 @@ struct kd_node_t** createQueue(int*, int*);
 void enQueue(struct kd_node_t**, int*, struct kd_node_t*);
 struct kd_node_t* deQueue(struct kd_node_t**, int*);
 bool pointSearch(struct kd_node_t* root, int d, const int dim, struct kd_node_t* p);
-void rangeSearch(struct kd_node_t* root, const int len, struct kd_node_t* p);
+void rangeSearch(struct kd_node_t* root, const int kd_num, struct kd_node_t* p);
 void nearestSearch(struct kd_node_t* root, const int kd_num, struct kd_node_t* p);
 
 /* Author: None(Given code)
@@ -324,7 +324,7 @@ int main(void) {
     rangeSearch(root, kd_num, rangeSearchNode);
     printf("\n");
 
-    //3.nearest neighbor
+    // 3. Nearest Neighbor Search
     len = sizeof(nearstSearchNode) / sizeof(struct kd_node_t);
     for (int i = 0; i < len; i++) {
         struct kd_node_t* p = &nearstSearchNode[i];
