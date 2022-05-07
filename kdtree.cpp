@@ -277,7 +277,8 @@ void nearestSearch(struct kd_node_t* root, const int kd_num, struct kd_node_t* p
         }
     }
 
-    for (int i = 1; i < kd_num; i++) {
+    for (int i = 0; i < kd_num; i++) {
+        if (dis[i]->dist == 0) continue;
         printf("point : %lf %lf \tdist^2 : %lf \tdist : %lf\n", dis[i]->x, dis[i]->y, dis[i]->dist, sqrt(dis[i]->dist));
     }
 }
