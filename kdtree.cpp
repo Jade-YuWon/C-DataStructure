@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <time.h>
 #include <stdbool.h>
 
 #define MAX_ELE 10000
@@ -279,7 +278,7 @@ void nearestSearch(struct kd_node_t* root, const int kd_num, struct kd_node_t* p
     }
 
     for (int i = 1; i < kd_num; i++) {
-        printf("point : %lf %lf\tdist^2 : %lf\n", dis[i]->x, dis[i]->y, dis[i]->dist);
+        printf("point : %lf %lf \tdist^2 : %lf \tdist : %lf\n", dis[i]->x, dis[i]->y, dis[i]->dist, sqrt(dis[i]->dist));
     }
 }
 
