@@ -213,11 +213,11 @@ void range_search(struct kd_node_t* root, int d, int dim, const int len, struct 
     //inorderMake(root, 2, 0, treeArr);
     int rear, front;
     struct kd_node_t** queue = createQueue(&front, &rear);
-    int j = 0;
+    int i = 0;
     while (root) {
 
-        treeArr[j++] = root;
-        if (j == len) break;
+        treeArr[i++] = root;
+        if (i == len) break;
         /*Enqueue left child */
         if (root->left)
             enQueue(queue, &rear, root->left);
@@ -234,13 +234,13 @@ void range_search(struct kd_node_t* root, int d, int dim, const int len, struct 
 
     }
 
-    for (int i = 0; i < len; i++)
+    for (int j = 0; j < len; j++)
     {
-        if (p[0].x[0] <= treeArr[i]->x[0] && p[0].x[1] <= treeArr[i]->x[1]
-            && treeArr[i]->x[0] <= p[1].x[0] && treeArr[i]->x[1] <= p[1].x[1])
+        if (p[0].x[0] <= treeArr[j]->x[0] && p[0].x[1] <= treeArr[j]->x[1]
+            && treeArr[j]->x[0] <= p[1].x[0] && treeArr[j]->x[1] <= p[1].x[1])
         {
             // boolArr[i] = true; // 이거 대신에 바로 출력
-            printf("Found (%lf, %lf)\n", treeArr[i]->x[0], treeArr[i]->x[1]);
+            printf("Found (%lf, %lf)\n", treeArr[j]->x[0], treeArr[j]->x[1]);
         }
     }
 
@@ -254,7 +254,7 @@ struct distance
     double x;
     double y;
 
-} dis[7];
+} dis[MAX_ELE];
 
 
 void near_search(struct kd_node_t* root, int d, int dim, const int len, struct kd_node_t* p) {
@@ -263,12 +263,12 @@ void near_search(struct kd_node_t* root, int d, int dim, const int len, struct k
     //inorderMake(root, 2, 0, treeArr);
     int rear, front;
     struct kd_node_t** queue = createQueue(&front, &rear);
-    int j = 0;
+    int index = 0;
     while (root) {
 
-        treeArr[j++] = root;
+        treeArr[index++] = root;
 
-        if (j == len) break;
+        if (index == len) break;
         /*Enqueue left child */
         if (root->left)
             enQueue(queue, &rear, root->left);
@@ -290,22 +290,22 @@ void near_search(struct kd_node_t* root, int d, int dim, const int len, struct k
 
     double dx, dx2, dy, dy2;
 
-    for (int a = 0; a < 7; a++)
+    for (int i = 0; i < len; i++)
     {
-        dx = treeArr[a]->x[0] - p[0].x[0];
+        dx = treeArr[i]->x[0] - p[0].x[0];
         dx2 = dx * dx;
-        dy = treeArr[a]->x[1] - p[0].x[1];
+        dy = treeArr[i]->x[1] - p[0].x[1];
         dy2 = dy * dy;
 
-        dis[a].dist = dx2 + dy2;
-        dis[a].x = treeArr[a]->x[0];
-        dis[a].y = treeArr[a]->x[1];
+        dis[i].dist = dx2 + dy2;
+        dis[i].x = treeArr[i]->x[0];
+        dis[i].y = treeArr[i]->x[1];
 
     }
 
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < len - 1; i++)
     {
-        for (int j = i + 1; j < 7; j++)
+        for (int j = i + 1; j < len; j++)
         {
             if (dis[i].dist < dis[j].dist)
             {
@@ -316,8 +316,24 @@ void near_search(struct kd_node_t* root, int d, int dim, const int len, struct k
         }
     }
 
-    for (int i = 0; i < 6; i++) {
-        printf("point : %lf %lf\tdist^2 : %lf\n", dis[5 - i].x, dis[5 - i].y, dis[5 - i].dist);
+    for (int i = 0; i < len - 1; i++) {
+        printf("point : %lf %lf \tdist^2 : %lf\n", dis[len - 2 - i].x, dis[len - 2 - i].y, dis[len - 2 - i].dist);
+    }
+
+    for (int i = 0; i < len - 1; i++)
+    {
+        for (int j = i + 1; j < len; j++)
+        {
+            if (dis[i].dist < dis[j].dist)
+            {
+                tmp = dis[i];
+                dis[i] = dis[j];
+                dis[j] = tmp;
+            }
+        }
+    }
+    for (int i = 0; i < len - 1; i++) {
+        printf("point : %lf %lf \tdist^2 : %lf\n", dis[len - 2 - i].x, dis[len - 2 - i].y, dis[len - 2 - i].dist);
     }
 
 }
