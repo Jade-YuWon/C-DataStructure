@@ -1,3 +1,18 @@
+/*
+* File: kd_tree.cpp
+*
+* Author1: Park Yongwoo
+* Author2: Yun Jaesang
+* Author3: Park Yuwon
+* Author4: Kim Hyekang
+*
+* Date: 2022.05.16
+*
+* Course: Data Structures(14461_002)
+*
+* Summary of File
+*   This file build K-D Tree and do Point Search and Range Search
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -156,7 +171,7 @@ struct kd_node_t* deQueue(struct kd_node_t** queue, int* front) {
     return queue[*front - 1];
 }
 
-/* Authors: 김혜강, 윤재상, 박유원, 박용우
+/* Author: 박유원
 function call
     struct kd_node_t pointSearchNode[] = { {5, 4}, {4, 7}, {10, 5} };
     struct kd_node_t* p = &pointSearchNode[i]; // i in for loop
@@ -182,7 +197,7 @@ bool pointSearch(struct kd_node_t* root, int d, const int dim, struct kd_node_t*
         pointSearch(root->left, ++d, dim, p); // Go to L Subtree
 }
 
-/* Authors: 김혜강, 윤재상, 박유원, 박용우
+/* Authors: 박용우, 윤재상, 박유원
 Assume that search in 2D space
 function call
     struct kd_node_t rangeSearchNode[] = { {6, 3}, {9, 7} };
@@ -221,7 +236,7 @@ void rangeSearch(struct kd_node_t* root, const int kd_num, struct kd_node_t* p) 
     }
 }
 
-/* Authors: 김혜강, 윤재상, 박유원, 박용우
+/* Authors: 박용우, 윤재상, 박유원
 Assume that search in 2D space */
 void nearestSearch(struct kd_node_t* root, const int kd_num, struct kd_node_t* p) {
     int index = 0;
