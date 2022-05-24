@@ -27,13 +27,73 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <memory.h>
+
+#define MAX_STR 10000
 
 struct RANDS {
 	FILE* pos ;
 	FILE* ints ;
 	FILE* doubles ;
-	FILE* fixed ;
+	FILE* fixed ; // String
 };
+
+/* Cautions: This function get 'void' array "arr" as an input (so it can hold any type such as int, float and double)
+ and write it into file with name "fileName"(parameter)
+ * Return value : true(success to write file)
+ * arrType value 0: char*(string), 1:int, 2:float, 3:double
+ */
+bool fileWriter2(char* fileName, const int arrType, const void* arr, const int len) {
+	FILE* fd;
+	// 1. File open as w(write) mode
+	fd = fopen(fileName, "w");
+	if (fd == NULL) {
+		printf("Failed to open file adequately: ");
+		printf("data can't be writed.\n");
+		return false;
+	}
+	else {
+		char tmp[MAX_STR];
+		char* s_arr = ((char*)arr);
+		int* int_arr = ((int*)arr);
+		float* float_arr = ((float*)arr);
+		double* double_arr = ((double*)arr);
+		// 2. Write data into file
+		switch (arrType) {
+		case 0: // arr is string itself
+			fprintf(fd, s_arr);
+			break;
+		case 1: // arr is int array
+			memset(tmp, 0, MAX_STR);
+			for (int i = 0, j = 0; i < len; i++)
+				j += sprintf(&tmp[j], "%d ", int_arr[i]);
+			fprintf(fd, tmp);
+			break;
+		case 2: // arr is float array
+			memset(tmp, 0, MAX_STR);
+			for (int i = 0, j = 0; i < len; i++)
+				j += sprintf(&tmp[j], "%f ", float_arr[i]);
+			fprintf(fd, tmp);
+			break;
+		case 3: // arr is double array
+			memset(tmp, 0, MAX_STR);
+			for (int i = 0, j = 0; i < len; i++)
+				j += sprintf(&tmp[j], "%lf ", double_arr[i]);
+			fprintf(fd, tmp);
+			break;
+		default:
+			printf("Wrong arr Type\n");
+			return false;
+		}
+		printf("File %s opened in writing mode successfully \n\n", fileName);
+	}
+	// 3. Close file descriptor then the file is saved as fileName.
+	fclose(fd);
+	return true;
+}
+
 
 /*
  Part1: Implement the following random input generator
@@ -64,7 +124,7 @@ bool fx_rand(const int n) {
  Category2: Merge sort, Quick sort
  Category3: Heap sort, Radix sort
 */
-void insertion_s(FILE* fd) {
+void insertion_s() {
 	int arr[] = { 12, 11, 13, 5, 6 }, int n = sizeof(arr) / sizeof(arr[0]);
 	int i, key, j;
 	for (i = 1; i < n; i++)
@@ -90,7 +150,7 @@ void swap(int* xp, int* yp)
 	*xp = *yp;
 	*yp = temp;
 }
-void selection_s(FILE* fd) {
+void selection_s() {
 	int arr[] = { 12, 11, 13, 5, 6 }, int n = sizeof(arr) / sizeof(arr[0]);
 	int i, j, min_idx;
 
@@ -112,14 +172,50 @@ void selection_s(FILE* fd) {
 	}
 
 }
-void bubble_s(FILE* fd) {
+void bubble_s() {
 
 }
-void merge_s(FILE* fd) {
+void merge_s() {
 
 }
-void quick_s(FILE* fd) {
 
+/* This function takes last element as pivot, places
+the pivot element at its correct position in sorted
+array, and places all smaller (smaller than pivot)
+to left of pivot and all greater elements to right
+of pivot */
+int partition(int arr[], int low, int high)
+{
+	int pivot = arr[high]; // pivot
+	int i = (low - 1); // Index of smaller element and indicates the right position of pivot found so far
+
+	for (int j = low; j <= high - 1; j++)
+	{
+		// If current element is smaller than the pivot
+		if (arr[j] < pivot)
+		{
+			i++; // increment index of smaller element
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
+}
+void quick_s() {
+	int arr[] = { 12, 11, 13, 5, 6 }, int n = sizeof(arr) / sizeof(arr[0]);
+	int low = 0, int high = n - 1;
+
+	if (low < high)
+	{
+		/* pi is partitioning index, arr[p] is now
+		at right place */
+		int pi = partition(arr, low, high);
+
+		// Separately sort elements before
+		// partition and after partition
+		quickSort(arr, low, pi - 1);
+		quickSort(arr, pi + 1, high);
+	}
 }
 void heap_s(FILE* fd) {
 
@@ -152,6 +248,9 @@ bool stability_corrector(FILE* fd) {
 int main() {
 	RANDS *rands;
 
+
+
+
 	if (!(rands->pos = pos_rand(10000))) {
 		printf("Cannot Create Positive Random numbers File\n");
 		exit(1);
@@ -170,13 +269,13 @@ int main() {
 	}
 
 
-	insertion_s(fd);
-	selection_s(fd);
-	bubble_s(fd);
-	merge_s(fd);
-	quick_s(fd);
-	heap_s(fd);
-	radix_s(fd);
+	insertion_s();
+	selection_s();
+	bubble_s();
+	merge_s();
+	quick_s();
+	heap_s();
+	radix_s();
 
 	//close(fd);
 
